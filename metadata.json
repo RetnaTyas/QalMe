@@ -1,0 +1,6 @@
+{
+  "name": "Gemini Deliberative Council Evo 0.3.4",
+  "description": "An advanced chatbot that visualizes a real-time, moderated debate between multiple AI personas (The Critic, The Generator, The Moderator), revealing the emergent reasoning process behind each answer.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
