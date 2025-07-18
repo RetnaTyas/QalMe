@@ -1,11 +1,13 @@
 "use client";
 
+"use client";
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { ChatPanel } from '../components/ChatPanel';
 import { DeliberationCouncil } from '../components/ReasoningPipeline';
 import { SarcasticObserver } from '../components/SarcasticObserver';
 import { ChatMessage, SessionState, DialogueState, SessionTurn, MuzakarahState } from '../types';
-import appOrchestrator from '../services/orchestrator';
+import { Orchestrator } from '../services/orchestrator';
 
 const getInitialMuzakarahState = (): MuzakarahState => ({
   status: 'concluded',
@@ -28,6 +30,9 @@ function App() {
   const [sessionState, setSessionState] = useState<SessionState>({ sessionId: null, history: [] });
   const [dialogueState, setDialogueState] = useState<DialogueState>('new_query');
 
+  // Create a single instance of the orchestrator, and only on the client.
+  const [appOrchestrator] = useState(() => new Orchestrator());
+
   // Register the UI updaters with the orchestrator on initial render
   useEffect(() => {
     appOrchestrator.registerUIUpdaters({
@@ -37,21 +42,19 @@ function App() {
       setSessionState,
       setDialogueState,
     });
-  }, []); // No dependencies needed, as the orchestrator is a stable singleton.
+  }, [appOrchestrator]); // Now depends on the orchestrator instance.
 
   const handleSendMessage = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     const currentInput = userInput;
     if (!currentInput.trim()) return;
     setUserInput(''); // Clear input immediately
-    // Pass the current session state to the handler, making the orchestrator less stateful.
     await appOrchestrator.handleUserMessage(currentInput, sessionState);
-  }, [userInput, sessionState]); // sessionState is now a dependency.
+  }, [userInput, sessionState, appOrchestrator]);
 
   const handleChallengeClick = useCallback((turnId: number) => {
-    // This is currently disabled in the new architecture, but the hook remains.
     appOrchestrator.setChallenge(turnId);
-  }, []);
+  }, [appOrchestrator]);
 
   const lastTurn = sessionState.history.length > 0 ? sessionState.history[sessionState.history.length - 1] : null;
 

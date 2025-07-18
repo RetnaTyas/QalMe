@@ -127,5 +127,4 @@ class Orchestrator {
   }
 }
 
-const appOrchestrator = new Orchestrator();
-export default appOrchestrator;
+export { Orchestrator };
