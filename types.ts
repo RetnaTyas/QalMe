@@ -13,6 +13,7 @@ export interface ChatMessage {
 
 // --- Deliberative Council Architecture Types ---
 
+export type PersonaColor = 'blue' | 'red' | 'purple' | 'amber' | 'slate';
 export type Persona = 'Al-Imam' | 'Al-Khatib' | 'Al-Faqih' | 'Al-Hypothesis' | 'Al-Mizan' | 'Al-Mudawwin' | 'User';
 export type ParticipantStatus = 'thinking' | 'speaking' | 'waiting' | 'governing';
 export type MuzakarahSessionStatus = 'deliberating' | 'synthesizing' | 'concluded' | 'error';
