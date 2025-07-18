@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect, useState } from 'react';
 import { ChatMessage, DialogueState } from '../types';
 import { SendIcon, UserIcon, BotIcon, SpinnerIcon, ExpandIcon, CollapseIcon, ChallengeIcon } from './icons';
