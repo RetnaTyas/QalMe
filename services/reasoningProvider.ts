@@ -20,7 +20,7 @@ export const reasoningProvider = {
       groundingMetadata?.groundingChunks
         ?.filter(chunk => chunk.web?.uri)
         .map(chunk => ({ uri: chunk.web!.uri!, title: chunk.web!.title || chunk.web!.uri!, })) ?? [];
-    const context = ragResponse.text;
+    const context = ragResponse.text ?? '';
     return { context, sources };
   },
 

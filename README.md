@@ -53,7 +53,7 @@ touch .env.local
 Buka file `.env.local` dan tambahkan variabel berikut:
 
 ```
-VITE_GEMINI_API_KEY=KUNCI_API_ANDA_DI_SINI
+GEMINI_API_KEY=KUNCI_API_ANDA_DI_SINI
 ```
 
 Ganti `KUNCI_API_ANDA_DI_SINI` dengan kunci API Google Gemini Anda.

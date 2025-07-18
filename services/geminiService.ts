@@ -3,11 +3,11 @@ import { GoogleGenAI, GenerateContentResponse, Type } from "@google/genai";
 import { DeliberationTurn, MizanInstruction, Persona } from '../types';
 import { personaLoadouts } from './personaLoadouts';
 
-if (!process.env.API_KEY) {
-  throw new Error("API_KEY environment variable not set.");
+if (!process.env.GEMINI_API_KEY) {
+  throw new Error("GEMINI_API_KEY environment variable not set.");
 }
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 // DO NOT CHANGE: User has explicitly demanded to lock this model and a specific low-latency config.
 const model = 'gemini-2.0-flash';
 const modelForKhatib = 'gemini-2.5-flash';

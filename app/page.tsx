@@ -1,9 +1,11 @@
+"use client";
+
 import React, { useState, useCallback, useEffect } from 'react';
-import { ChatPanel } from './components/ChatPanel';
-import { DeliberationCouncil } from './components/ReasoningPipeline';
-import { SarcasticObserver } from './components/SarcasticObserver';
-import { ChatMessage, SessionState, DialogueState, SessionTurn, MuzakarahState } from './types';
-import appOrchestrator from './services/orchestrator';
+import { ChatPanel } from '../components/ChatPanel';
+import { DeliberationCouncil } from '../components/ReasoningPipeline';
+import { SarcasticObserver } from '../components/SarcasticObserver';
+import { ChatMessage, SessionState, DialogueState, SessionTurn, MuzakarahState } from '../types';
+import appOrchestrator from '../services/orchestrator';
 
 const getInitialMuzakarahState = (): MuzakarahState => ({
   status: 'concluded',
