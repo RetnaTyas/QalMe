@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ParticipantState, Persona, PersonaColor } from '../types';
+import { ParticipantState, Persona } from '../types';
 import { SpinnerIcon, ScalesIcon, MagnifyingGlassIcon, FeatherIcon, BranchingIcon, ScrollIcon } from './icons';
 
 interface CouncilMemberNodeProps {
@@ -8,7 +8,7 @@ interface CouncilMemberNodeProps {
   state: ParticipantState;
 }
 
-const personaConfig: { [key in Persona]?: { title: string; role: string; icon: React.ReactNode; color: PersonaColor; } } = {
+const personaConfig: { [key in Persona]?: { title: string; role: string; icon: React.ReactNode; color: string; } } = {
   'Al-Khatib': {
     title: 'Al-Khatib',
     role: 'The Generator',
