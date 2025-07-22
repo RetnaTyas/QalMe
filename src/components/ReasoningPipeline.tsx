@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { MuzakarahState, DeliberationTurn } from '../types';
+import type { MuzakarahState, DeliberationTurn } from '../types';
 import { CouncilMemberNode } from './PipelineNode';
 import { CopyIcon, CheckIcon, ChevronUpIcon, ChevronDownIcon } from './icons';
 
@@ -24,7 +24,7 @@ const TranscriptTurn: React.FC<{ turn: DeliberationTurn }> = ({ turn }) => {
     );
 };
 
-export const DeliberationCouncil: React.FC<DeliberationCouncilProps> = ({ state, userQuery, onOpenNadhirModal, onResumeDebate }) => {
+export const DeliberationCouncil: React.FC<DeliberationCouncilProps> = ({ state, onOpenNadhirModal, onResumeDebate }) => {
   const transcriptEndRef = useRef<HTMLDivElement>(null);
   const [isTranscriptCopied, setIsTranscriptCopied] = useState(false);
   const [isCouncilCollapsed, setIsCouncilCollapsed] = useState(false);
@@ -78,21 +78,21 @@ export const DeliberationCouncil: React.FC<DeliberationCouncilProps> = ({ state,
                           />
                       </div>
                   )}
-                  <div className="md:col-span-2">
+                  {participants['Al-Khatib'] && <div className="md:col-span-2">
                       <CouncilMemberNode persona="Al-Khatib" state={participants['Al-Khatib']} />
-                  </div>
-                  <div className="md:col-span-2">
+                  </div>}
+                  {participants['Al-Faqih'] && <div className="md:col-span-2">
                       <CouncilMemberNode persona="Al-Faqih" state={participants['Al-Faqih']} />
-                  </div>
-                  <div className="md:col-span-2">
+                  </div>}
+                  {participants['Al-Hypothesis'] && <div className="md:col-span-2">
                       <CouncilMemberNode persona="Al-Hypothesis" state={participants['Al-Hypothesis']} />
-                  </div>
-                  <div className="md:col-span-2">
+                  </div>}
+                  {participants['Al-Mizan'] && <div className="md:col-span-2">
                       <CouncilMemberNode persona="Al-Mizan" state={participants['Al-Mizan']} />
-                  </div>
-                  <div className="md:col-span-2">
+                  </div>}
+                  {participants['Al-Nadhir'] && <div className="md:col-span-2">
                       <CouncilMemberNode persona="Al-Nadhir" state={participants['Al-Nadhir']} onOpenNadhirModal={onOpenNadhirModal} />
-                  </div>
+                  </div>}
                   {participants['Al-Mudawwin'] && (
                       <div className="md:col-span-2">
                           <CouncilMemberNode persona="Al-Mudawwin" state={participants['Al-Mudawwin']} />
@@ -131,7 +131,7 @@ export const DeliberationCouncil: React.FC<DeliberationCouncilProps> = ({ state,
          </div>
          <div className="space-y-1 pr-2 overflow-y-auto">
             {state.deliberationTranscript.length > 0 ? (
-                state.deliberationTranscript.map((turn, index) => <TranscriptTurn key={index} turn={turn} />)
+                state.deliberationTranscript.map((turn: DeliberationTurn, index: number) => <TranscriptTurn key={index} turn={turn} />)
             ) : (
                 <p className="text-slate-400 italic text-center p-4">Awaiting user query to convene the council...</p>
             )}

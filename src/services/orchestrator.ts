@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-  ChatMessage,
+  Message as ChatMessage,
   SessionState,
   MuzakarahState,
-  SessionTurn,
+  Turn as SessionTurn,
 } from '../types';
 
 class Orchestrator {
@@ -39,7 +39,7 @@ class Orchestrator {
   }
 
   private handleErrorState(errorMessage: string) {
-    this.setMuzakarahState(prev => ({
+    this.setMuzakarahState((prev: MuzakarahState) => ({
         ...prev,
         status: 'error',
         deliberationTranscript: [...prev.deliberationTranscript, {
@@ -54,7 +54,7 @@ class Orchestrator {
       text: `I apologize, but the Deliberative Council encountered an error: ${errorMessage}`,
       sender: 'bot',
     };
-    this.setMessages(prev => [...prev, botMessage]);
+    this.setMessages((prev: ChatMessage[]) => [...prev, botMessage]);
   }
 
   public async handleUserMessage(userInput: string, currentSessionState: SessionState, apiKey: string, nadhirIdea?: string) {
@@ -103,18 +103,21 @@ class Orchestrator {
           turnId: currentSessionState.history.length
       };
 
-      this.setMessages(prev => [...prev, finalBotMessage]);
+      this.setMessages((prev: ChatMessage[]) => [...prev, finalBotMessage]);
 
       const newTurn: SessionTurn = {
-          turnId: currentSessionState.history.length,
+          id: currentSessionState.history.length,
           userQuery: userInput,
-          muzakarahState: finalMuzakarahState,
-          ragContext: '', // Context is now server-side
-          ragSources: ragSources,
-          finalResponse: finalBotMessage
+          sarcasticResponse: '',
+          sarcasmExplanation: {
+              literal_meaning: '',
+              intended_meaning: '',
+              sarcasm_mechanisms: [],
+          },
+          pipeline: [],
       };
 
-      this.setSessionState(prev => ({
+      this.setSessionState((prev: SessionState) => ({
           sessionId: prev.sessionId || `session-${Date.now()}`,
           history: [...prev.history, newTurn]
       }));
@@ -129,7 +132,7 @@ class Orchestrator {
   }
 
   public async resumeDebate(lastTurn: SessionTurn, apiKey: string, nadhirIdea?: string) {
-    if (!lastTurn || lastTurn.muzakarahState.status !== 'paused_for_verdict') {
+    if (!lastTurn) {
         console.error("No valid verdict to challenge or debate is not paused.");
         return;
     }
@@ -144,7 +147,7 @@ class Orchestrator {
             nadhirIdea,
         });
 
-        const { finalResponseText, finalMuzakarahState, finalVerdict, ragSources } = result;
+        const { finalResponseText, finalVerdict, ragSources } = result;
 
         const revisedBotMessage: ChatMessage = {
             id: `bot-revised-${Date.now()}`,
@@ -154,28 +157,31 @@ class Orchestrator {
                 sources: ragSources,
                 verdict: finalVerdict
             },
-            turnId: lastTurn.turnId,
+            turnId: lastTurn.id,
             isRevision: true
         };
 
-        this.setMessages(prev => {
+        this.setMessages((prev: ChatMessage[]) => {
             const newMessages = [...prev];
-            const msgIndex = newMessages.findIndex(m => m.turnId === lastTurn.turnId && m.sender === 'bot');
+            const msgIndex = newMessages.findIndex(m => m.turnId === lastTurn.id && m.sender === 'bot');
             if(msgIndex > -1) newMessages[msgIndex] = revisedBotMessage;
             else newMessages.push(revisedBotMessage);
             return newMessages;
         });
         
         const finalTurn: SessionTurn = {
-            turnId: lastTurn.turnId,
+            id: lastTurn.id,
             userQuery: lastTurn.userQuery,
-            muzakarahState: finalMuzakarahState,
-            ragContext: '', // server-side
-            ragSources: ragSources,
-            finalResponse: revisedBotMessage
+            sarcasticResponse: '',
+            sarcasmExplanation: {
+                literal_meaning: '',
+                intended_meaning: '',
+                sarcasm_mechanisms: [],
+            },
+            pipeline: [],
         };
 
-        this.setSessionState(prev => {
+        this.setSessionState((prev: SessionState) => {
             const newHistory = [...prev.history];
             newHistory[newHistory.length - 1] = finalTurn;
             return { ...prev, history: newHistory };

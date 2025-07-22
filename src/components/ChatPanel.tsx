@@ -1,7 +1,7 @@
 
 
 import React, { useRef, useEffect, useState } from 'react';
-import { ChatMessage, HakimVerdict } from '../types';
+import { Message as ChatMessage, HakimVerdict } from '../types';
 import { SendIcon, UserIcon, BotIcon, SpinnerIcon, ExpandIcon, CollapseIcon, CopyIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon } from './icons';
 
 interface ChatPanelProps {
@@ -171,7 +171,7 @@ const ChatMessageItem: React.FC<{ message: ChatMessage }> = ({ message }) => {
           <div className="mt-3 pt-3 border-t border-slate-600">
             <h4 className="text-xs font-semibold text-slate-400 mb-2">Sources:</h4>
             <ul className="space-y-1">
-              {sources.map((source, index) => (
+              {sources.map((source: { uri: string; title: string }, index: number) => (
                 <li key={index} className="truncate">
                   <a
                     href={source.uri}

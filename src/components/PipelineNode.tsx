@@ -1,5 +1,5 @@
 import React from 'react';
-import { ParticipantState, Persona } from '../types';
+import type { ParticipantState, Persona } from '../types';
 import { SpinnerIcon, ScalesIcon, MagnifyingGlassIcon, FeatherIcon, BranchingIcon, ScrollIcon, DuelingSwordsIcon, SyringeIcon, ChallengeIcon } from './icons';
 
 interface CouncilMemberNodeProps {

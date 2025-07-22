@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChatMessage, SessionTurn, SarcasmFactors } from '../types';
+import { Message as ChatMessage, Turn as SessionTurn, SarcasmFactors } from '../types';
 import { SarcasmExplanation } from './SarcasmExplanation';
-import { BrainIcon, CloseIcon, SpinnerIcon, QuestionMarkCircleIcon, ThunderboltIcon, SpeakerLoudIcon, SpeakerOffIcon } from './icons';
+import { BrainIcon, CloseIcon, QuestionMarkCircleIcon, ThunderboltIcon, SpeakerLoudIcon, SpeakerOffIcon } from './icons';
 
 interface SarcasticObserverProps {
   messages: ChatMessage[];
@@ -16,7 +16,7 @@ const SarcasticSpinner = () => (
     </svg>
 );
 
-export const SarcasticObserver: React.FC<SarcasticObserverProps> = ({ messages, lastTurn, apiKey }) => {
+export const SarcasticObserver: React.FC<SarcasticObserverProps> = ({ lastTurn, apiKey }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isThinking, setIsThinking] = useState(false);
   const [thought, setThought] = useState('');
