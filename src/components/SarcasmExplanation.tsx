@@ -1,5 +1,4 @@
-import React from 'react';
-import { SarcasmFactors } from '../types';
+import type { SarcasmFactors } from '../types';
 import { FireIcon } from './icons';
 
 const MetricBar = ({ label, value, colorClass }: { label: string, value: number, colorClass: string }) => (

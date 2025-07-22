@@ -5,7 +5,7 @@ import { SarcasticObserver } from './components/SarcasticObserver';
 import { NadhirInjectionModal } from './components/NadhirInjectionModal';
 import { SettingsModal } from './components/SettingsModal';
 import { ApiKeyModal } from './components/ApiKeyModal';
-import { ChatMessage, SessionState, MuzakarahState } from './types';
+import { Message as ChatMessage, SessionState, MuzakarahState } from './types';
 import { appOrchestrator } from './services/orchestrator';
 import { apiKeyManager } from './services/apiKeyManager';
 
